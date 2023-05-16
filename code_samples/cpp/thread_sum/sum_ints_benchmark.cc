@@ -11,14 +11,14 @@ static void BM_ThreadsSum(benchmark::State& state) {
     holistic_multithreading::ThreadsSum(1, 1000000000);
 }
 // Register the function as a benchmark
-BENCHMARK(BM_ThreadsSum)->Range(8, 8<<10)->UseRealTime();
+BENCHMARK(BM_ThreadsSum)->UseRealTime();
 
 static void BM_MultithreadedSum(benchmark::State& state) {
   for (auto _ : state)
-    holistic_multithreading::MultithreadedSum(1, 1000000000, 6);
+    holistic_multithreading::MultithreadedSum(1, 1000000000, 4);
 }
 // Register the function as a benchmark
-BENCHMARK(BM_MultithreadedSum)->Range(8, 8<<10)->UseRealTime();
+BENCHMARK(BM_MultithreadedSum)->UseRealTime();
 
 static void BM_SingleThreadSum(benchmark::State& state) {
   for (auto _ : state)

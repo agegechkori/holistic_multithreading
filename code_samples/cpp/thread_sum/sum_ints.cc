@@ -48,7 +48,7 @@ int64_t MultithreadedSum(int64_t from, int64_t to, int64_t thread_count) {
 }
 
 int64_t SingleThreadSum(int64_t from, int64_t to) {
-  int64_t result;
+  int64_t result = 0;
   for (int64_t i = from; i <= to; i++) {
     result += i;
   }

@@ -1,5 +1,5 @@
 sum_ints_main: sum_ints_main.cc sum_ints_lib
-	clang++ sum_ints_main.cc -std=c++14 -L. -lsum_ints -o sum_ints_main
+	clang++ sum_ints_main.cc -std=c++14 -L. -lsum_ints -lpthread -o sum_ints_main
 
 sum_ints_lib: sum_ints.h sum_ints.cc
 	clang++ -c -std=c++14 sum_ints.cc
