@@ -39,7 +39,7 @@ int64_t MultithreadedSum(int64_t from, int64_t to, int64_t thread_count) {
     int64_t end = (i < thread_count - 1) ? start + batch_size - 1 : to;
     results.push_back(0);
     threads.push_back(std::thread(SumValues, start, end, std::ref(results.back())));
-    start += batch_size;
+    start = end + 1;
   }
   for (auto& t : threads) {
     t.join();
