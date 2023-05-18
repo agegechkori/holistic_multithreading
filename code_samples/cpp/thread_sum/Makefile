@@ -12,7 +12,7 @@ $(sum_ints_lib): sum_ints.h sum_ints.cc
 	ar rcs $(sum_ints_lib) sum_ints.o
 
 $(benchmark): sum_ints_benchmark.cc $(sum_ints_lib)
-	clang++ sum_ints_benchmark.cc -std=c++14 -lbenchmark -L. -lsum_ints -lpthread -O3 -o $(benchmark)
+	clang++ sum_ints_benchmark.cc -std=c++14 -lbenchmark -L. -lsum_ints -lpthread -static -O3 -o $(benchmark)
 
 run_benchmark: $(benchmark)
 	./sum_ints_benchmark
