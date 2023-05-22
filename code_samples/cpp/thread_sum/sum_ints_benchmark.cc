@@ -2,15 +2,26 @@
 #include <benchmark/benchmark.h>
 #include <cstdint>
 #include <thread>
+#include <vector>
 
 namespace holistic_multithreading {
 namespace {
 
-constexpr int64_t kStartRange = 1'000;
-constexpr int64_t kEndRange = 1'000'000'000;
-constexpr int64_t kRangeMultiplier = 1'000;
+constexpr int64_t kStart = 1'000;
+constexpr int64_t kEnd = 1'000'000'000;
+constexpr int64_t kMultiplier = 1'000;
 
 void DoSomething() {}
+
+std::vector<int64_t> CreateThreadCountRange() {
+  int64_t max_thread_count = std::thread::hardware_concurrency();
+  std::vector<int64_t> range;
+  for (int64_t i = 2; i < max_thread_count; i = i * 2) {
+    range.push_back(i);
+  }
+  range.push_back(max_thread_count);
+  return range;
+}
 
 static void BM_ThreadsSum(benchmark::State &state) {
   for (auto _ : state)
@@ -18,18 +29,20 @@ static void BM_ThreadsSum(benchmark::State &state) {
 }
 // Register the function as a benchmark
 BENCHMARK(BM_ThreadsSum)
-    ->RangeMultiplier(kRangeMultiplier)
-    ->Range(kStartRange, kEndRange)
+    ->RangeMultiplier(kMultiplier)
+    ->Range(kStart, kEnd)
     ->UseRealTime();
 
 static void BM_MultithreadedSum(benchmark::State &state) {
   for (auto _ : state)
-    holistic_multithreading::MultithreadedSum(1, state.range(0), 8);
+    holistic_multithreading::MultithreadedSum(1, state.range(0),
+                                              state.range(1));
 }
 // Register the function as a benchmark
 BENCHMARK(BM_MultithreadedSum)
-    ->RangeMultiplier(kRangeMultiplier)
-    ->Range(kStartRange, kEndRange)
+    ->RangeMultiplier(kMultiplier)
+    ->ArgsProduct({benchmark::CreateRange(kStart, kEnd, kMultiplier),
+                   CreateThreadCountRange()})
     ->UseRealTime();
 
 static void BM_SingleThreadSum(benchmark::State &state) {
@@ -38,8 +51,8 @@ static void BM_SingleThreadSum(benchmark::State &state) {
 }
 // Register the function as a benchmark
 BENCHMARK(BM_SingleThreadSum)
-    ->RangeMultiplier(kRangeMultiplier)
-    ->Range(kStartRange, kEndRange)
+    ->RangeMultiplier(kMultiplier)
+    ->Range(kStart, kEnd)
     ->UseRealTime();
 
 static void BM_ThreadCreation(benchmark::State &state) {
