@@ -11,7 +11,7 @@ namespace {
 
 void SumValues(int64_t from, int64_t to, int64_t &result) {
   for (int64_t i = from; i <= to; i++) {
-    result += i;
+    result += i % 10;
   }
 }
 
@@ -51,9 +51,7 @@ int64_t MultithreadedSum(int64_t from, int64_t to, int64_t thread_count) {
 
 int64_t SingleThreadSum(int64_t from, int64_t to) {
   int64_t result = 0;
-  for (int64_t i = from; i <= to; i++) {
-    result += i;
-  }
+  SumValues(from, to, result);
   return result;
 }
 
