@@ -5,8 +5,6 @@
 
 namespace holistic_multithreading {
 
-int64_t ThreadsSum(int64_t from, int64_t to);
-
 int64_t MultithreadedSum(int64_t from, int64_t to, int64_t thread_count);
 
 int64_t SingleThreadSum(int64_t from, int64_t to);

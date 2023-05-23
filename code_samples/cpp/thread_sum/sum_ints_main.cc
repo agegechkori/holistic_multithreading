@@ -8,14 +8,11 @@
 
 using holistic_multithreading::MultithreadedSum;
 using holistic_multithreading::SingleThreadSum;
-using holistic_multithreading::ThreadsSum;
 
 int main(int argc, char *argv[]) {
   std::cout << "Number of CPUs as counted by C++ standard library: "
             << std::thread::hardware_concurrency() << std::endl;
   std::cout << "Single-thread sum is: " << SingleThreadSum(1, 1'000'000'000)
-            << std::endl;
-  std::cout << "Two-thread sum is: " << ThreadsSum(1, 1'000'000'000)
             << std::endl;
   auto start = std::chrono::high_resolution_clock::now();
   std::cout << "Multithreaded sum is: "

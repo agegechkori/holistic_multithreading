@@ -1,4 +1,5 @@
 #include "sum_ints.h"
+
 #include <benchmark/benchmark.h>
 #include <cstdint>
 #include <thread>
@@ -22,16 +23,6 @@ std::vector<int64_t> CreateThreadCountRange() {
   range.push_back(max_thread_count);
   return range;
 }
-
-static void BM_ThreadsSum(benchmark::State &state) {
-  for (auto _ : state)
-    holistic_multithreading::ThreadsSum(1, state.range(0));
-}
-// Register the function as a benchmark
-BENCHMARK(BM_ThreadsSum)
-    ->RangeMultiplier(kMultiplier)
-    ->Range(kStart, kEnd)
-    ->UseRealTime();
 
 static void BM_MultithreadedSum(benchmark::State &state) {
   for (auto _ : state)

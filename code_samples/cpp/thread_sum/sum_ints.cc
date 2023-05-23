@@ -17,17 +17,6 @@ void SumValues(int64_t from, int64_t to, int64_t &result) {
 
 } // namespace
 
-int64_t ThreadsSum(int64_t from, int64_t to) {
-  int64_t result_1 = 0;
-  int64_t result_2 = 0;
-  int64_t mid_value = to >> 1;
-  std::thread t1(SumValues, from, mid_value, std::ref(result_1));
-  std::thread t2(SumValues, mid_value + 1, to, std::ref(result_2));
-  t1.join();
-  t2.join();
-  return result_1 + result_2;
-}
-
 int64_t MultithreadedSum(int64_t from, int64_t to, int64_t thread_count) {
   int64_t batch_size = (to - from + 1) / thread_count;
   std::vector<std::thread> threads;
